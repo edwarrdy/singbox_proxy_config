@@ -16,7 +16,16 @@
       "access_control_allow_origin": [
         "*"
       ],
-      "access_control_allow_private_network": false
+      "access_control_allow_private_network": false,
+      // ======= 🛠️ 核心修复：在这里建立全自动传送门 =======
+      "external_providers": [
+        {
+          "tag": "sub_store_nodes",
+          "type": "file",
+          "path": "outbounds.json", // 对应你 Sub-Store 导出的本地节点文件
+          "outbound": "🚀 节点选择"    // 自动把文件里所有节点全部塞进这个策略组
+        }
+      ]
     },
     "cache_file": {
       "enabled": true,
@@ -63,7 +72,7 @@
       "type": "selector",
       "tag": "🚀 节点选择",
       "interrupt_exist_connections": true,
-      "outbounds": []
+      "outbounds": [] // 留空，上面的 external_providers 会自动把 Sub-Store 里的节点平铺进来
     },
     {
       "type": "selector",
@@ -280,354 +289,63 @@
         "🎯 全球直连",
         "🐟 漏网之鱼"
       ]
-    },
-    "include:outbounds.json"
+    }
+    // ======= 🛠️ 彻底删除了引发报错的 include 字符串 =======
   ],
   "route": {
     "rules": [
-      {
-        "action": "sniff",
-        "inbound": "tun-in"
-      },
-      {
-        "action": "hijack-dns",
-        "protocol": "dns"
-      },
-      {
-        "action": "reject",
-        "protocol": "quic"
-      },
-      {
-        "action": "reject",
-        "rule_set": [
-          "Category-Ads"
-        ]
-      },
-      {
-        "action": "route",
-        "network": "icmp",
-        "outbound": "🎯 全球直连"
-      },
-      {
-        "action": "route",
-        "clash_mode": "direct",
-        "outbound": "🎯 全球直连"
-      },
-      {
-        "action": "route",
-        "clash_mode": "global",
-        "outbound": "GLOBAL"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "GeoSite-Private"
-        ],
-        "outbound": "🎯 全球直连"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "GeoIP-Private"
-        ],
-        "outbound": "🎯 全球直连"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "Github"
-        ],
-        "outbound": "📦 Github"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "OpenAI",
-          "Claude",
-          "Gemini"
-        ],
-        "outbound": "🤖 AI"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "Telegram",
-          "Telegram_IP"
-        ],
-        "outbound": "✈️ Telegram"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "FaceBook"
-        ],
-        "outbound": "🧑‍🤝‍🧑 FaceBook"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "X"
-        ],
-        "outbound": "💬 X"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "TikTok"
-        ],
-        "outbound": "🎬 TikTok"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "bilibili",
-          "bilibili-cdn",
-          "bilibili-game"
-        ],
-        "outbound": "🎥 bilibili"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "Disney"
-        ],
-        "outbound": "📹 Disney+"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "Netflix"
-        ],
-        "outbound": "📺 Netflix"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "Youtube"
-        ],
-        "outbound": "▶️ YouTube"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "Google"
-        ],
-        "outbound": "🌐 Google"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "Bing",
-          "Bing-CN"
-        ],
-        "outbound": "🔍 Bing"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "GeoLocation-CN",
-          "GeoSite-CN"
-        ],
-        "outbound": "🎯 全球直连"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "GeoIP-CN"
-        ],
-        "outbound": "🎯 全球直连"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "GeoLocation-!CN"
-        ],
-        "outbound": "🐟 漏网之鱼"
-      }
+      { "action": "sniff", "inbound": "tun-in" },
+      { "action": "hijack-dns", "protocol": "dns" },
+      { "action": "reject", "protocol": "quic" },
+      { "action": "reject", "rule_set": [ "Category-Ads" ] },
+      { "action": "route", "network": "icmp", "outbound": "🎯 全球直连" },
+      { "action": "route", "clash_mode": "direct", "outbound": "🎯 全球直连" },
+      { "action": "route", "clash_mode": "global", "outbound": "GLOBAL" },
+      { "action": "route", "rule_set": [ "GeoSite-Private" ], "outbound": "🎯 全球直连" },
+      { "action": "route", "rule_set": [ "GeoIP-Private" ], "outbound": "🎯 全球直连" },
+      { "action": "route", "rule_set": [ "Github" ], "outbound": "📦 Github" },
+      { "action": "route", "rule_set": [ "OpenAI", "Claude", "Gemini" ], "outbound": "🤖 AI" },
+      { "action": "route", "rule_set": [ "Telegram", "Telegram_IP" ], "outbound": "✈️ Telegram" },
+      { "action": "route", "rule_set": [ "FaceBook" ], "outbound": "🧑‍🤝‍🧑 FaceBook" },
+      { "action": "route", "rule_set": [ "X" ], "outbound": "💬 X" },
+      { "action": "route", "rule_set": [ "TikTok" ], "outbound": "🎬 TikTok" },
+      { "action": "route", "rule_set": [ "bilibili", "bilibili-cdn", "bilibili-game" ], "outbound": "🎥 bilibili" },
+      { "action": "route", "rule_set": [ "Disney" ], "outbound": "📹 Disney+" },
+      { "action": "route", "rule_set": [ "Netflix" ], "outbound": "📺 Netflix" },
+      { "action": "route", "rule_set": [ "Youtube" ], "outbound": "▶️ YouTube" },
+      { "action": "route", "rule_set": [ "Google" ], "outbound": "🌐 Google" },
+      { "action": "route", "rule_set": [ "Bing", "Bing-CN" ], "outbound": "🔍 Bing" },
+      { "action": "route", "rule_set": [ "GeoLocation-CN", "GeoSite-CN" ], "outbound": "🎯 全球直连" },
+      { "action": "route", "rule_set": [ "GeoIP-CN" ], "outbound": "🎯 全球直连" },
+      { "action": "route", "rule_set": [ "GeoLocation-!CN" ], "outbound": "🐟 漏网之鱼" }
     ],
     "rule_set": [
-      {
-        "tag": "bilibili@!cn",
-        "type": "remote",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili@!cn.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "GeoLocation-CN",
-        "type": "remote",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-cn.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "OpenAI",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-openai.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "Claude",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-anthropic.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "Gemini",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-google-gemini.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "Bing",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-bing.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "Bing-CN",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-bing@cn.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "Youtube",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-youtube.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "FaceBook",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-facebook.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "X",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-x.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "Github",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-github.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "Netflix",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-netflix.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "Disney",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-disney.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "bilibili",
-        "type": "remote",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "bilibili-cdn",
-        "type": "remote",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili-cdn.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "bilibili-game",
-        "type": "remote",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili-game.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "TikTok",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-tiktok.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "Telegram",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-telegram.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "Telegram_IP",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/lyc8503/sing-box-rules/refs/heads/rule-set-geoip/geoip-telegram.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "Google",
-        "type": "remote",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-google.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "Category-Ads",
-        "type": "remote",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "GeoIP-Private",
-        "type": "remote",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/private.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "GeoSite-Private",
-        "type": "remote",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "GeoIP-CN",
-        "type": "remote",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "GeoSite-CN",
-        "type": "remote",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      },
-      {
-        "tag": "GeoLocation-!CN",
-        "type": "remote",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
-        "format": "binary",
-        "download_detour": "🚀 节点选择"
-      }
+      { "tag": "bilibili@!cn", "type": "remote", "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili@!cn.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "GeoLocation-CN", "type": "remote", "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-cn.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "OpenAI", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-openai.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "Claude", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-anthropic.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "Gemini", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-google-gemini.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "Bing", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-bing.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "Bing-CN", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-bing@cn.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "Youtube", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-youtube.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "FaceBook", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-facebook.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "X", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-x.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "Github", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-github.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "Netflix", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-netflix.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "Disney", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-disney.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "bilibili", "type": "remote", "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "bilibili-cdn", "type": "remote", "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili-cdn.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "bilibili-game", "type": "remote", "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili-game.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "TikTok", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-tiktok.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "Telegram", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-telegram.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "Telegram_IP", "type": "remote", "url": "https://raw.githubusercontent.com/lyc8503/sing-box-rules/refs/heads/rule-set-geoip/geoip-telegram.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "Google", "type": "remote", "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-google.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "Category-Ads", "type": "remote", "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "GeoIP-Private", "type": "remote", "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/private.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "GeoSite-Private", "type": "remote", "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "GeoIP-CN", "type": "remote", "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "GeoSite-CN", "type": "remote", "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs", "format": "binary", "download_detour": "🚀 节点选择" },
+      { "tag": "GeoLocation-!CN", "type": "remote", "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs", "format": "binary", "download_detour": "🚀 节点选择" }
     ],
     "auto_detect_interface": true,
     "final": "🐟 漏网之鱼",
@@ -637,65 +355,17 @@
   },
   "dns": {
     "servers": [
-      {
-        "tag": "Local-DNS",
-        "type": "tls",
-        "server_port": 853,
-        "server": "223.5.5.5"
-      },
-      {
-        "tag": "Local-DNS-Resolver",
-        "type": "udp",
-        "server_port": 53,
-        "server": "223.5.5.5"
-      },
-      {
-        "tag": "Remote-DNS",
-        "type": "tls",
-        "detour": "🚀 节点选择",
-        "server_port": 853,
-        "server": "8.8.8.8"
-      },
-      {
-        "tag": "Remote-DNS-Resolver",
-        "type": "udp",
-        "detour": "🚀 节点选择",
-        "server_port": 53,
-        "server": "8.8.8.8"
-      }
+      { "tag": "Local-DNS", "type": "tls", "server_port": 853, "server": "223.5.5.5" },
+      { "tag": "Local-DNS-Resolver", "type": "udp", "server_port": 53, "server": "223.5.5.5" },
+      { "tag": "Remote-DNS", "type": "tls", "detour": "🚀 节点选择", "server_port": 853, "server": "8.8.8.8" },
+      { "tag": "Remote-DNS-Resolver", "type": "udp", "detour": "🚀 节点选择", "server_port": 53, "server": "8.8.8.8" }
     ],
     "rules": [
-      {
-        "action": "reject",
-        "query_type": [
-          "AAAA"
-        ]
-      },
-      {
-        "action": "route",
-        "clash_mode": "direct",
-        "server": "Local-DNS"
-      },
-      {
-        "action": "route",
-        "clash_mode": "global",
-        "server": "Remote-DNS"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "GeoLocation-CN",
-          "GeoSite-CN"
-        ],
-        "server": "Local-DNS"
-      },
-      {
-        "action": "route",
-        "rule_set": [
-          "GeoLocation-!CN"
-        ],
-        "server": "Remote-DNS"
-      }
+      { "action": "reject", "query_type": [ "AAAA" ] }, // 核心优化：关闭 IPv6
+      { "action": "route", "clash_mode": "direct", "server": "Local-DNS" },
+      { "action": "route", "clash_mode": "global", "server": "Remote-DNS" },
+      { "action": "route", "rule_set": [ "GeoLocation-CN", "GeoSite-CN" ], "server": "Local-DNS" },
+      { "action": "route", "rule_set": [ "GeoLocation-!CN" ], "server": "Remote-DNS" }
     ],
     "disable_cache": false,
     "disable_expire": false,
