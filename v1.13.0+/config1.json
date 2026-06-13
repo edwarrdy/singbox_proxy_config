@@ -48,9 +48,8 @@
       "type": "selector",
       "tag": "🚀 节点选择",
       "interrupt_exist_connections": true,
-      "outbounds": []  // 你的节点会自动填充
+      "outbounds": []
     },
-    // ... 保留你所有的香港、台湾、新加坡、日本、美国、特定服务 Selector（Bing、Google、YouTube、Netflix 等）
     {
       "type": "selector",
       "tag": "🇭🇰 香港",
@@ -197,7 +196,6 @@
         "rule_set": ["GeoSite-Private", "GeoIP-Private"],
         "outbound": "🎯 全球直连"
       },
-      // 特定服务规则（保持你的分组）
       {
         "rule_set": ["Github"],
         "outbound": "📦 Github"
@@ -246,19 +244,16 @@
         "rule_set": ["Bing", "Bing-CN"],
         "outbound": "🔍 Bing"
       },
-      // 国内精准直连
       {
         "rule_set": ["GeoLocation-CN", "GeoSite-CN", "GeoIP-CN"],
         "outbound": "🎯 全球直连"
       },
-      // 国外走漏网（可精细调整）
       {
         "rule_set": ["GeoLocation-!CN"],
         "outbound": "🐟 漏网之鱼"
       }
     ],
     "rule_set": [
-      // ... 这里放所有你的 rule_set 定义，我帮你统一优化了下载源和 detour
       {
         "tag": "Category-Ads",
         "type": "remote",
@@ -294,16 +289,146 @@
         "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
         "download_detour": "🎯 全球直连"
       },
-      // 其他服务 rule_set 保持原样或换成 fastly.jsdelivr（推荐），完整列表我帮你保留了结构
-      // Bing、Google、Youtube、Netflix、bilibili 等都已包含
       {
         "tag": "GeoIP-Private",
         "type": "remote",
         "format": "binary",
         "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/private.srs",
         "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "GeoSite-Private",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "Github",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-github.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "OpenAI",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-openai.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "Claude",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-anthropic.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "Gemini",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-google-gemini.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "Bing",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-bing.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "Bing-CN",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-bing@cn.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "Youtube",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-youtube.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "FaceBook",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-facebook.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "X",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-x.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "Netflix",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-netflix.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "Disney",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-disney.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "bilibili",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "bilibili-cdn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili-cdn.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "bilibili-game",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili-game.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "TikTok",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-tiktok.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "Telegram",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-telegram.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "Telegram_IP",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/lyc8503/sing-box-rules/refs/heads/rule-set-geoip/geoip-telegram.srs",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "Google",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/refs/heads/rule-set/geosite-google.srs",
+        "download_detour": "🎯 全球直连"
       }
-      // ...（其余按需复制或替换为 fastly 源）
     ],
     "final": "🐟 漏网之鱼"
   },
