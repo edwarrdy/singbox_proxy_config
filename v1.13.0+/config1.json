@@ -21,7 +21,7 @@
         {
           "tag": "sub_store_nodes",
           "type": "file",
-          "path": "outbounds.json", 
+          "path": "outbounds.json",
           "outbound": "🚀 节点选择"
         }
       ]
