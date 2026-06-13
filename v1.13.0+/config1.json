@@ -63,37 +63,49 @@
       "type": "selector",
       "tag": "🚀 节点选择",
       "interrupt_exist_connections": true,
-      "outbounds": ["🎯 全球直连"]
+      "outbounds": [
+        "🎯 全球直连"
+      ]
     },
     {
       "type": "selector",
       "tag": "🇭🇰 香港",
       "interrupt_exist_connections": true,
-      "outbounds": ["🚀 节点选择"]
+      "outbounds": [
+        "🚀 节点选择"
+      ]
     },
     {
       "type": "selector",
       "tag": "🇹🇼 台湾",
       "interrupt_exist_connections": true,
-      "outbounds": ["🚀 节点选择"]
+      "outbounds": [
+        "🚀 节点选择"
+      ]
     },
     {
       "type": "selector",
       "tag": "🇸🇬 新加坡",
       "interrupt_exist_connections": true,
-      "outbounds": ["🚀 节点选择"]
+      "outbounds": [
+        "🚀 节点选择"
+      ]
     },
     {
       "type": "selector",
       "tag": "🇯🇵 日本",
       "interrupt_exist_connections": true,
-      "outbounds": ["🚀 节点选择"]
+      "outbounds": [
+        "🚀 节点选择"
+      ]
     },
     {
       "type": "selector",
       "tag": "🇺🇸 美国",
       "interrupt_exist_connections": true,
-      "outbounds": ["🚀 节点选择"]
+      "outbounds": [
+        "🚀 节点选择"
+      ]
     },
     {
       "type": "selector",
